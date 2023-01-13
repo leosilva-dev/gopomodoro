@@ -18,7 +18,7 @@ export const ConfigModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button onClick={onOpen}>
+      <Button onClick={onOpen} variant="link">
         <Gear size={24} weight="light" />
       </Button>
 
