@@ -1,5 +1,5 @@
 import { VStack, Button, Icon, Box, Text } from "@chakra-ui/react";
-import { Pause, Play } from "phosphor-react";
+import { ArrowClockwise, Pause, Play } from "phosphor-react";
 import { usePomo } from "../../hooks/usePomo";
 import { ConfigModal } from "../config-modal/ConfigModal";
 
@@ -11,6 +11,7 @@ export default function Pomodoro() {
     getClockLabel,
     setTypePomo,
     pomoType,
+    restartPomo,
   } = usePomo();
 
   return (
@@ -73,6 +74,9 @@ export default function Pomodoro() {
       </Box>
       <Box>
         <ConfigModal />
+        <Button onClick={restartPomo} variant="link">
+          <ArrowClockwise size={25} weight="light" />
+        </Button>
       </Box>
     </VStack>
   );

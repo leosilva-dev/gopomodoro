@@ -24,6 +24,19 @@ export const usePomo = () => {
     setIsCounting(false);
   }, [setIsCounting]);
 
+  const restartPomo = useCallback(() => {
+    if( pomoType === 'pomo'){
+      setSecondsAmount(defaultTimePomo)
+    }
+    if( pomoType === 'short-break'){
+      setSecondsAmount(defaultTimeShortBreak)
+    }
+    if( pomoType === 'long-break'){
+      setSecondsAmount(defaultTimeLongBreak)
+    }
+    setIsCounting(false);
+  }, [defaultTimeLongBreak, defaultTimePomo, defaultTimeShortBreak, pomoType]);
+
   const getClockLabel = useCallback(() => {
     const minutes = Math.floor(secondsAmount / 60);
     const seconds = secondsAmount % 60;
@@ -72,6 +85,7 @@ export const usePomo = () => {
         getClockLabel,
         setTypePomo,
         pomoType,
-        setPomoType
+        setPomoType,
+        restartPomo
     };
   };
