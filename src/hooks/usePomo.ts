@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import useSound from "use-sound";
 
 export const usePomo = () => {
   const [defaultTimePomo, setDefaultTimePomo] = useState(15 * 60);
@@ -7,6 +8,12 @@ export const usePomo = () => {
   const [pomoType, setPomoType] = useState<'pomo' | 'short-break' | 'long-break'>('pomo')
   const [secondsAmount, setSecondsAmount] = useState(defaultTimePomo);
   const [isCounting, setIsCounting] = useState(false);
+
+  const [play] = useSound("/sounds/clock_start_stop.wav", {
+    volume: 0.5,
+  });
+
+ 
 
   const decreaseSecondsAmount = useCallback(() => {
     setSecondsAmount((old) => old - 1);
@@ -18,11 +25,13 @@ export const usePomo = () => {
 
   const startPomo = useCallback(() => {
     setIsCounting(true);
-  }, [setIsCounting]);
+    play()
+  }, [setIsCounting, play]);
 
   const stopPomo = useCallback(() => {
     setIsCounting(false);
-  }, [setIsCounting]);
+    play()
+  }, [setIsCounting, play]);
 
   const restartPomo = useCallback(() => {
     if( pomoType === 'pomo'){
