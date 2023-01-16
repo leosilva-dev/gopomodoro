@@ -2,16 +2,19 @@ import { VStack, Button, Icon, Box, Text } from "@chakra-ui/react";
 import { ArrowClockwise, Pause, Play } from "phosphor-react";
 import { usePomo } from "../../hooks/usePomo";
 import { ConfigModal } from "../config-modal/ConfigModal";
+import { BackgroundSound } from "../sound/BackgroundSound";
 
 export default function Pomodoro() {
   const {
     isCounting,
     startPomo,
     stopPomo,
+    startNextPomo,
     getClockLabel,
     setTypePomo,
     pomoType,
     restartPomo,
+    isPomoFinished,
   } = usePomo();
 
   return (
@@ -58,10 +61,10 @@ export default function Pomodoro() {
             variant="solid"
             onClick={stopPomo}
           >
-            Stop Pomo
+            Pause Pomo
           </Button>
         )}
-        {!isCounting && (
+        {!isCounting && !isPomoFinished && (
           <Button
             leftIcon={<Icon as={Play} />}
             color="primary"
@@ -71,12 +74,23 @@ export default function Pomodoro() {
             Start Pomo
           </Button>
         )}
+        {!isCounting && isPomoFinished && (
+          <Button
+            leftIcon={<Icon as={Play} />}
+            color="primary"
+            variant="solid"
+            onClick={startNextPomo}
+          >
+            Start next Pomo
+          </Button>
+        )}
       </Box>
       <Box>
         <ConfigModal />
         <Button onClick={restartPomo} variant="link">
           <ArrowClockwise size={25} weight="light" />
         </Button>
+        <BackgroundSound />
       </Box>
     </VStack>
   );
