@@ -5,12 +5,12 @@ import { Sun, Moon } from "phosphor-react";
 export const ToggleMode: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   return colorMode === "light" ? (
-    <Button onClick={toggleColorMode} leftIcon={<Icon as={Moon} />}>
-      Switch to dark theme
+    <Button onClick={toggleColorMode} variant="ghost">
+      <Moon size={28} weight={"light"} />
     </Button>
   ) : (
-    <Button onClick={toggleColorMode} leftIcon={<Icon as={Sun} />}>
-      Switch to Light theme
+    <Button onClick={toggleColorMode} variant="ghost">
+      <Sun size={28} weight={"light"} />
     </Button>
   );
 };
