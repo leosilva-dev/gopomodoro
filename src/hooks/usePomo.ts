@@ -1,21 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import useSound from "use-sound";
 
 export const usePomo = () => {
-  const [defaultTimePomo, setDefaultTimePomo] = useState(15 * 60);
-  const [defaultTimeShortBreak, setDefaultTimeShortBreak] = useState(5 * 60);
-  const [defaultTimeLongBreak, setDefaultTimeLongBreak] = useState(10 * 60);
+  const [defaultTimePomo] = useState(15 * 60);
+  const [defaultTimeShortBreak] = useState(5 * 60);
+  const [defaultTimeLongBreak] = useState(10 * 60);
   const [pomoType, setPomoType] = useState<'pomo' | 'short-break' | 'long-break'>('pomo')
   const [secondsAmount, setSecondsAmount] = useState(defaultTimePomo);
   const [isCounting, setIsCounting] = useState(false);
   const [isPomoFinished, setIsPomoFinished] = useState(false);
 
-  const [playStartPomoSound] = useSound("/sounds/clock_start_stop.wav", {
-  volume: 0.5,
-});
- const [playFinishedPomoSound] = useSound("/sounds/finished.wav", {
-  volume: 0.5,
-});
+  const playStartPomoSound = useCallback(() => {
+    new Audio("/sounds/clock_start_stop.wav").play()
+  }, []);
+
+  const playFinishedPomoSound = useCallback(() => {
+    new Audio("/sounds/finished.wav").play()
+  }, []);
 
   const decreaseSecondsAmount = useCallback(() => {
     setSecondsAmount((old) => old - 1);
@@ -24,11 +24,6 @@ export const usePomo = () => {
   const defineIsCounting = useCallback((value: boolean) => {
     setIsCounting(value);
   }, []);
-
-  const stopPomo = useCallback(() => {
-    setIsCounting(false);
-    playStartPomoSound()
-  }, [setIsCounting, playStartPomoSound]);
 
   const setTypePomo = useCallback((type: 'pomo' | 'short-break' | 'long-break') => {
     setIsCounting(false);
@@ -51,7 +46,7 @@ export const usePomo = () => {
     setIsPomoFinished(false)
     setIsCounting(true);
     playStartPomoSound()
-  }, [setIsCounting, playStartPomoSound, setIsPomoFinished]);
+  }, [playStartPomoSound]);
 
   const startNextPomo = useCallback(() => {
     setIsPomoFinished(false)
@@ -69,6 +64,7 @@ export const usePomo = () => {
   }, [pomoType, playStartPomoSound, setTypePomo])
 
   const restartPomo = useCallback(() => {
+    playStartPomoSound()
     if( pomoType === 'pomo'){
       setSecondsAmount(defaultTimePomo)
     }
@@ -80,7 +76,7 @@ export const usePomo = () => {
     }
     setIsCounting(false);
     setIsPomoFinished(false)
-  }, [defaultTimeLongBreak, defaultTimePomo, defaultTimeShortBreak, pomoType, setIsPomoFinished]);
+  }, [playStartPomoSound, pomoType, defaultTimePomo, defaultTimeShortBreak, defaultTimeLongBreak]);
 
   const getClockLabel = useCallback(() => {
     const minutes = Math.floor(secondsAmount / 60);
@@ -94,7 +90,7 @@ export const usePomo = () => {
   useEffect(() => {
     if (secondsAmount > 0 && isCounting) {
       setTimeout(() => {
-        if (secondsAmount > 0) {
+        if (secondsAmount > 0 && isCounting) {
           decreaseSecondsAmount();
         }
       }, 1000);
@@ -115,7 +111,6 @@ export const usePomo = () => {
         decreaseSecondsAmount,
         defineIsCounting,
         startPomo,
-        stopPomo,
         getClockLabel,
         setTypePomo,
         pomoType,
