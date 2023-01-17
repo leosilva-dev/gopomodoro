@@ -6,11 +6,11 @@ export const ToggleMode: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   return colorMode === "light" ? (
     <Button onClick={toggleColorMode} leftIcon={<Icon as={Moon} />}>
-      Dark
+      Switch to dark theme
     </Button>
   ) : (
     <Button onClick={toggleColorMode} leftIcon={<Icon as={Sun} />}>
-      Light
+      Switch to Light theme
     </Button>
   );
 };
