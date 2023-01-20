@@ -1,5 +1,5 @@
 import { VStack, Button, Icon, Box, Text } from "@chakra-ui/react";
-import { ArrowClockwise, Pause, Play, Stop } from "phosphor-react";
+import { ArrowClockwise, Play } from "phosphor-react";
 import { ToggleMode } from "../toggle-mode/ToggleMode";
 import { usePomo } from "../../hooks/usePomo";
 
@@ -63,7 +63,7 @@ export default function Pomodoro() {
               variant="solid"
               onClick={restartPomo}
             >
-              Restart Pomo
+              Stop Pomo
             </Button>
           )}
           {!isCounting && !isPomoFinished && (

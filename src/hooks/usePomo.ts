@@ -44,9 +44,18 @@ export const usePomo = () => {
 
   const startPomo = useCallback(() => {
     setIsPomoFinished(false)
-    setIsCounting(true);
     playStartPomoSound()
-  }, [playStartPomoSound]);
+    if( pomoType === 'pomo'){
+      setSecondsAmount(defaultTimePomo)
+    }
+    if( pomoType === 'short-break'){
+      setSecondsAmount(defaultTimeShortBreak)
+    }
+    if( pomoType === 'long-break'){
+      setSecondsAmount(defaultTimeLongBreak)
+    }
+    setIsCounting(true);
+  }, [defaultTimeLongBreak, defaultTimePomo, defaultTimeShortBreak, playStartPomoSound, pomoType]);
 
   const startNextPomo = useCallback(() => {
     setIsPomoFinished(false)
@@ -79,13 +88,14 @@ export const usePomo = () => {
   }, [playStartPomoSound, pomoType, defaultTimePomo, defaultTimeShortBreak, defaultTimeLongBreak]);
 
   const getClockLabel = useCallback(() => {
+    if(!isCounting) return '-- --'
     const minutes = Math.floor(secondsAmount / 60);
     const seconds = secondsAmount % 60;
 
     return `${minutes.toString().padStart(2, "0")}:${seconds
       .toString()
       .padStart(2, "0")}`;
-  }, [secondsAmount]);
+  }, [secondsAmount, isCounting ]);
 
   useEffect(() => {
     if (secondsAmount > 0 && isCounting) {
@@ -117,6 +127,6 @@ export const usePomo = () => {
         setPomoType,
         restartPomo,
         isPomoFinished,
-        startNextPomo
+        startNextPomo,
     };
   };
