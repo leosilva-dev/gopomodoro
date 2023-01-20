@@ -2,8 +2,12 @@ import { VStack, Button, Icon, Box, Text } from "@chakra-ui/react";
 import { ArrowClockwise, Play } from "phosphor-react";
 import { ToggleMode } from "../toggle-mode/ToggleMode";
 import { usePomo } from "../../hooks/usePomo";
+import { useEffect } from "react";
+import { usePomoContext } from "../../hooks/usePomoContext";
 
 export default function Pomodoro() {
+  const { defineTimerPreview } = usePomoContext();
+
   const {
     isCounting,
     startPomo,
@@ -14,6 +18,10 @@ export default function Pomodoro() {
     restartPomo,
     isPomoFinished,
   } = usePomo();
+
+  useEffect(() => {
+    defineTimerPreview(getClockLabel());
+  }, [defineTimerPreview, getClockLabel]);
 
   return (
     <>

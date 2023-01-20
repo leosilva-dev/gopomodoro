@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 
 export const usePomo = () => {
+
+
   const [defaultTimePomo] = useState(15 * 60);
   const [defaultTimeShortBreak] = useState(5 * 60);
   const [defaultTimeLongBreak] = useState(10 * 60);
@@ -17,9 +19,7 @@ export const usePomo = () => {
     new Audio("/sounds/finished.wav").play()
   }, []);
 
-  const decreaseSecondsAmount = useCallback(() => {
-    setSecondsAmount((old) => old - 1);
-  }, []);
+ 
 
   const defineIsCounting = useCallback((value: boolean) => {
     setIsCounting(value);
@@ -97,6 +97,10 @@ export const usePomo = () => {
       .padStart(2, "0")}`;
   }, [secondsAmount, isCounting ]);
 
+  const decreaseSecondsAmount = useCallback(() => {
+    setSecondsAmount((old) => old - 1);
+  }, []);
+
   useEffect(() => {
     if (secondsAmount > 0 && isCounting) {
       setTimeout(() => {
@@ -113,6 +117,8 @@ export const usePomo = () => {
       playFinishedPomoSound()
     }
   }, [defineIsCounting, isCounting, secondsAmount, decreaseSecondsAmount, setIsPomoFinished, playFinishedPomoSound]);
+
+  
 
     return {
         secondsAmount,
