@@ -24,7 +24,8 @@ export default function Pomodoro() {
         h="100vh"
         display={"flex"}
         alignItems="center"
-        justifyContent={"center"}
+        justifyContent={"flex-start"}
+        marginTop={60}
       >
         <Box marginTop={2}>
           <Button
